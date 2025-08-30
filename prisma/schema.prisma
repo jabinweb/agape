@@ -1,0 +1,450 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// System Settings
+model SystemSettings {
+  id               String   @id @default(cuid())
+  storeName        String   @default("Agape Handicrafts")
+  storeAddress     String?
+  storePhone       String?
+  storeEmail       String?
+  storeWebsite     String?
+  enablePayment    Boolean  @default(true)
+  maintenanceMode  Boolean  @default(false)
+  currency         String   @default("INR")
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  logoUrl          String?
+  primaryColor     String? // e.g. "#7c3aed"
+  secondaryColor   String? // e.g. "#6366f1"
+  accentColor      String? // e.g. "#f59e42"
+  backgroundColor  String? // e.g. "#f9fafb"
+  textColor        String? // e.g. "#111827"
+  timezone         String?
+  defaultLanguage  String?
+  facebookUrl      String?
+  twitterUrl       String?
+  instagramUrl     String?
+  supportPhone     String?
+  privacyPolicyUrl String?
+  termsUrl         String?
+
+  @@map("system_settings")
+}
+
+// User Management
+enum UserRole {
+  ADMIN
+  USER
+  STAFF
+  MEMBER
+  CUSTOMER
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime?
+  image         String?
+  password      String? // Add password field for credentials login
+  role          UserRole  @default(CUSTOMER)
+  phone         String?
+  address       String?
+  dateOfBirth   DateTime?
+  anniversary   DateTime? // Add anniversary field for users
+  joinDate      DateTime  @default(now())
+  isActive      Boolean   @default(true)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @default(now())
+
+  // Relations
+  accounts      Account[]
+  sessions      Session[]
+  blogPosts     BlogPost[]
+  orders        Order[]
+  products      Product[]
+  addresses     Address[]
+  uploadedFiles File[]          @relation("UploadedFiles")
+  comments      Comment[]       @relation("CommentAuthor")
+  likes         Like[]          @relation("UserLikes")
+  ProductReview ProductReview[]
+
+  @@map("users")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("verification_tokens")
+}
+
+// Blog
+model BlogPost {
+  id          String    @id @default(cuid())
+  title       String
+  content     String    @db.Text
+  excerpt     String?
+  slug        String    @unique
+  authorId    String
+  isPublished Boolean   @default(false)
+  publishDate DateTime?
+  imageUrl    String?
+  tags        String[]
+  views       Int       @default(0)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @default(now())
+
+  author User @relation(fields: [authorId], references: [id])
+
+  categoryId String?
+  category   Category? @relation(fields: [categoryId], references: [id])
+
+  comments     Comment[]
+  likes        Like[]
+  commentCount Int       @default(0)
+  likeCount    Int       @default(0)
+
+  @@map("blog_posts")
+}
+
+enum PaymentMethod {
+  CREDIT_CARD
+  BANK_TRANSFER
+  CHECK
+  CASH
+}
+
+// E-commerce
+model ProductCategory {
+  id          String    @id @default(cuid())
+  name        String
+  slug        String?    @unique
+  description String?
+  imageUrl    String?
+  isActive    Boolean   @default(true)
+  products    Product[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  @@map("product_categories")
+}
+
+model Product {
+  id            String    @id @default(cuid())
+  name          String
+  description   String?   @db.Text
+  price         Decimal   @db.Decimal(10, 2)
+  regularPrice  Decimal?  @db.Decimal(10, 2) // Original/regular price for sale calculations
+  salePrice     Decimal?  @db.Decimal(10, 2) // Sale price when on discount
+  saleStartDate DateTime?
+  saleEndDate   DateTime?
+  sku           String?   @unique // Make nullable first for migration
+  slug          String?   @unique // Make nullable first for migration
+  categoryId    String?
+  imageUrl      String? // Main image (kept for backward compatibility)
+  stockQuantity Int       @default(0)
+  isActive      Boolean   @default(true)
+  tags          String[]
+  featured      Boolean   @default(false)
+
+  // Physical characteristics
+  weight   Float? // Weight in kg
+  width    Float? // Width in cm
+  height   Float? // Height in cm
+  length   Float? // Length in cm
+  material String? // Material composition (e.g., "Cotton 80%, Polyester 20%")
+
+  // Metadata
+  averageRating Float?   @default(0) // Calculated average rating
+  reviewCount   Int      @default(0) // Total number of reviews
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @default(now())
+
+  // Relations
+  category   ProductCategory?   @relation(fields: [categoryId], references: [id])
+  orderItems OrderItem[]
+  authorId   String?
+  author     User?              @relation(fields: [authorId], references: [id])
+  images     ProductImage[] // Multiple product images
+  reviews    ProductReview[] // Product reviews
+  variations ProductVariation[] // Product variations (e.g., sizes, colors)
+  attributes ProductAttribute[] // Product attributes (materials, etc)
+
+  @@map("products")
+}
+
+enum OrderStatus {
+  PENDING
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+}
+
+model Order {
+  id              String      @id @default(cuid())
+  userId          String?
+  addressId       String?
+  customerName    String
+  customerEmail   String
+  customerPhone   String?
+  shippingAddress String?
+  totalAmount     Decimal     @db.Decimal(10, 2)
+  status          OrderStatus @default(PENDING)
+  notes           String?
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @default(now())
+
+  user       User?       @relation(fields: [userId], references: [id])
+  address    Address?    @relation(fields: [addressId], references: [id])
+  orderItems OrderItem[]
+
+  @@map("orders")
+}
+
+model OrderItem {
+  id        String  @id @default(cuid())
+  orderId   String
+  productId String
+  quantity  Int
+  price     Decimal @db.Decimal(10, 2)
+
+  order   Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id])
+
+  @@map("order_items")
+}
+
+model Category {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  imageUrl    String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now())
+
+  blogPosts BlogPost[]
+
+  @@map("categories")
+}
+
+enum AddressType {
+  HOME
+  WORK
+  OTHER
+}
+
+model Address {
+  id        String      @id @default(cuid())
+  userId    String
+  firstName String
+  lastName  String
+  company   String?
+  address1  String
+  address2  String?
+  city      String
+  state     String
+  zipCode   String
+  country   String      @default("India")
+  phone     String?
+  isDefault Boolean     @default(false)
+  type      AddressType @default(HOME)
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+
+  user   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  orders Order[]
+
+  @@map("addresses")
+}
+
+model File {
+  id           String   @id @default(cuid())
+  name         String
+  originalName String
+  fileName     String   @unique
+  path         String
+  url          String
+  mimeType     String?
+  size         Int?
+  type         String // 'file' or 'folder'
+  uploadedById String
+  parentId     String?
+  isPublic     Boolean  @default(false)
+  isDeleted    Boolean  @default(false)
+  tags         String[]
+  description  String?
+  metadata     Json?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  uploadedBy User   @relation("UploadedFiles", fields: [uploadedById], references: [id])
+  parent     File?  @relation("FileHierarchy", fields: [parentId], references: [id])
+  children   File[] @relation("FileHierarchy")
+
+  @@map("files")
+}
+
+// Comments System
+model Comment {
+  id       String  @id @default(cuid())
+  content  String  @db.Text
+  authorId String
+  parentId String? // For nested replies
+
+  blogPostId String?
+
+  isApproved Boolean   @default(false) // For moderation
+  isEdited   Boolean   @default(false)
+  editedAt   DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  author  User      @relation("CommentAuthor", fields: [authorId], references: [id], onDelete: Cascade)
+  parent  Comment?  @relation("CommentReplies", fields: [parentId], references: [id])
+  replies Comment[] @relation("CommentReplies")
+
+  blogPost BlogPost? @relation(fields: [blogPostId], references: [id], onDelete: Cascade)
+
+  likes Like[]
+
+  @@index([blogPostId])
+  @@index([createdAt])
+  @@map("comments")
+}
+
+model Like {
+  id         String  @id @default(cuid())
+  userId     String
+  blogPostId String?
+  commentId  String?
+
+  createdAt DateTime @default(now())
+
+  user     User      @relation("UserLikes", fields: [userId], references: [id], onDelete: Cascade)
+  blogPost BlogPost? @relation(fields: [blogPostId], references: [id], onDelete: Cascade)
+  comment  Comment?  @relation(fields: [commentId], references: [id], onDelete: Cascade)
+
+  // Ensure one like per user per content
+  @@unique([userId, blogPostId])
+  @@unique([userId, commentId])
+  @@map("likes")
+}
+
+// Product Images - Multiple images per product
+model ProductImage {
+  id        String   @id @default(cuid())
+  url       String
+  alt       String?
+  sortOrder Int      @default(0)
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([productId])
+  @@map("product_images")
+}
+
+// Product Reviews and Ratings
+model ProductReview {
+  id        String   @id @default(cuid())
+  rating    Int // Rating from 1-5
+  title     String?
+  content   String?  @db.Text
+  status    String   @default("pending") // pending, approved, rejected
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Optional image attachments for reviews
+  images String[] @default([])
+
+  // Optional attributes for verified purchase, etc.
+  isVerifiedPurchase Boolean @default(false)
+  helpfulCount       Int     @default(0)
+
+  @@index([productId])
+  @@index([userId])
+  @@index([createdAt])
+  @@map("product_reviews")
+}
+
+// Product Variations (sizes, colors, etc.)
+model ProductVariation {
+  id            String   @id @default(cuid())
+  name          String // e.g., "Size", "Color"
+  value         String // e.g., "Small", "Blue"
+  sku           String?
+  price         Decimal? @db.Decimal(10, 2) // Override price if different from parent
+  stockQuantity Int      @default(0)
+  imageUrl      String? // Specific image for this variation
+  productId     String
+  product       Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([productId])
+  @@map("product_variations")
+}
+
+// Product Attributes (material, style, etc.)
+model ProductAttribute {
+  id        String   @id @default(cuid())
+  name      String // e.g., "Material", "Style"
+  value     String // e.g., "Cotton", "Modern"
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([productId])
+  @@map("product_attributes")
+}
