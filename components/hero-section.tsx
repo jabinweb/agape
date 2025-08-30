@@ -21,7 +21,16 @@ export function HeroSection({ featuredProducts }: HeroSectionProps) {
         {/* Hero Text */}
         <div className="w-full text-center md:text-left space-y-6 sm:space-y-8 max-w-2xl mx-auto md:mx-0">
           <h1 className="font-inter text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-extrabold tracking-tight leading-tight drop-shadow-sm text-gray-900 dark:text-white">
-            <span className="gradient-text drop-shadow-[0_2px_8px_rgba(80,80,180,0.10)]">{storeName || 'ATELIER 7X'}</span>
+            <span 
+              className="bg-gradient-to-r from-amber-600 via-rose-500 via-violet-600 via-emerald-500 via-cyan-500 to-amber-600 bg-clip-text text-transparent"
+              style={{
+                backgroundSize: '500% 100%',
+                animation: 'artisticFlow 8s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                filter: 'drop-shadow(0 0 10px rgba(147, 51, 234, 0.3)) drop-shadow(0 0 20px rgba(236, 72, 153, 0.2))',
+              }}
+            >
+              {storeName || 'ATELIER 7X'}
+            </span>
           </h1>
           <p className="text-xl sm:text-2xl md:text-3xl font-semibold text-gray-800 dark:text-white/90">
             Where Colors Dance and Stories Unfold

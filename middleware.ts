@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
-import { auth } from './auth'
+import { getToken } from 'next-auth/jwt'
 
 // Define protected routes that require authentication
 const protectedRoutes = [
@@ -29,17 +29,18 @@ export async function middleware(request: NextRequest) {
   )
 
   if (isProtectedRoute) {
-    const session = await auth()
+    // Use getToken instead of auth() to avoid bcryptjs in Edge Runtime
+    const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET })
 
     // Redirect to sign-in if not authenticated
-    if (!session?.user) {
+    if (!token) {
       const url = new URL('/auth/signin', request.url)
       url.searchParams.set('callbackUrl', pathname)
       return NextResponse.redirect(url)
     }
 
     // Check admin access for admin routes
-    if (isAdminRoute && session.user.role !== 'ADMIN') {
+    if (isAdminRoute && token.role !== 'ADMIN') {
       return NextResponse.json(
         { error: 'Access denied. Admin privileges required.' },
         { status: 403 }
