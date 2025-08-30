@@ -65,7 +65,7 @@ export function ProductCard({ product, featured = false }: ProductCardProps) {
         {/* Overlay on hover */}
         <div className="absolute inset-0 bg-gradient-to-br from-black/70 via-blue-900/40 to-purple-900/40 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center gap-3 backdrop-blur-sm">
           <Button asChild variant="secondary" size="sm" className="font-bold rounded-full shadow-md hover:scale-105 transition-transform">
-            <Link href={`/products/${product.slug || product.id}`}>
+            <Link href={`/shop/${product.slug || product.id}`}>
               <Eye className="mr-2 h-4 w-4" />
               View Details
             </Link>

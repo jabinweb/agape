@@ -113,7 +113,7 @@ export function ProductSlider({ products, className = "" }: ProductSliderProps &
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: idx * 0.1 }}
           >
-            <Link href={`/paintings/${product.id}`} tabIndex={0} className="block w-full focus:outline-none rounded-xl">
+            <Link href={`/shop/${product.slug}`} tabIndex={0} className="block w-full focus:outline-none rounded-xl">
               <div className="relative w-full aspect-square mb-4 rounded-xl overflow-hidden bg-white/60 dark:bg-white/10 shadow-[0_4px_16px_rgba(80,80,180,0.10)] select-none">
                 {product.image && product.image.trim() !== '' ? (
                   <Image
