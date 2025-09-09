@@ -31,14 +31,12 @@ interface Category {
 }
 
 interface SystemSettings {
-  churchName: string
-  churchAddress?: string
-  churchPhone?: string
-  churchEmail?: string
-  churchWebsite?: string
-  enableOnlineGiving: boolean
-  enableEventRegistration: boolean
-  enablePrayerRequests: boolean
+  storeName: string
+  storeAddress?: string
+  storePhone?: string
+  storeEmail?: string
+  storeWebsite?: string
+  enablePayment: boolean
   maintenanceMode: boolean
   currency?: string
   logoUrl?: string
@@ -49,7 +47,6 @@ interface SystemSettings {
   textColor?: string
   timezone?: string
   defaultLanguage?: string
-  announcement?: string
   facebookUrl?: string
   twitterUrl?: string
   instagramUrl?: string
@@ -78,14 +75,12 @@ function getCurrencySymbol(code: string | undefined) {
 export default function AdminSettingsPage() {
   const [categories, setCategories] = useState<Category[]>([])
   const [systemSettings, setSystemSettings] = useState<SystemSettings>({
-    churchName: 'Grace Community Church',
-    churchAddress: '',
-    churchPhone: '',
-    churchEmail: '',
-    churchWebsite: '',
-    enableOnlineGiving: true,
-    enableEventRegistration: true,
-    enablePrayerRequests: true,
+    storeName: 'Agape Handicrafts',
+    storeAddress: '',
+    storePhone: '',
+    storeEmail: '',
+    storeWebsite: '',
+    enablePayment: true,
     maintenanceMode: false,
   })
   const [loading, setLoading] = useState(true)
@@ -270,42 +265,42 @@ export default function AdminSettingsPage() {
                 <CardHeader>
                   <CardTitle className="flex items-center space-x-2">
                     <Settings className="h-5 w-5" />
-                    <span>Church Settings</span>
+                    <span>Store Settings</span>
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <Label htmlFor="churchName">Church Name</Label>
+                      <Label htmlFor="storeName">Store Name</Label>
                       <Input
-                        id="churchName"
-                        value={systemSettings.churchName}
-                        onChange={(e) => setSystemSettings(prev => ({ ...prev, churchName: e.target.value }))}
+                        id="storeName"
+                        value={systemSettings.storeName}
+                        onChange={(e) => setSystemSettings(prev => ({ ...prev, storeName: e.target.value }))}
                       />
                     </div>
                     <div>
-                      <Label htmlFor="churchEmail">Church Email</Label>
+                      <Label htmlFor="storeEmail">Store Email</Label>
                       <Input
-                        id="churchEmail"
+                        id="storeEmail"
                         type="email"
-                        value={systemSettings.churchEmail || ''}
-                        onChange={(e) => setSystemSettings(prev => ({ ...prev, churchEmail: e.target.value }))}
+                        value={systemSettings.storeEmail || ''}
+                        onChange={(e) => setSystemSettings(prev => ({ ...prev, storeEmail: e.target.value }))}
                       />
                     </div>
                     <div>
-                      <Label htmlFor="churchPhone">Church Phone</Label>
+                      <Label htmlFor="storePhone">Store Phone</Label>
                       <Input
-                        id="churchPhone"
-                        value={systemSettings.churchPhone || ''}
-                        onChange={(e) => setSystemSettings(prev => ({ ...prev, churchPhone: e.target.value }))}
+                        id="storePhone"
+                        value={systemSettings.storePhone || ''}
+                        onChange={(e) => setSystemSettings(prev => ({ ...prev, storePhone: e.target.value }))}
                       />
                     </div>
                     <div>
-                      <Label htmlFor="churchWebsite">Church Website</Label>
+                      <Label htmlFor="storeWebsite">Store Website</Label>
                       <Input
-                        id="churchWebsite"
-                        value={systemSettings.churchWebsite || ''}
-                        onChange={(e) => setSystemSettings(prev => ({ ...prev, churchWebsite: e.target.value }))}
+                        id="storeWebsite"
+                        value={systemSettings.storeWebsite || ''}
+                        onChange={(e) => setSystemSettings(prev => ({ ...prev, storeWebsite: e.target.value }))}
                       />
                     </div>
                     <div>
@@ -439,52 +434,23 @@ export default function AdminSettingsPage() {
                     </div>
                   </div>
                   <div>
-                    <Label htmlFor="churchAddress">Church Address</Label>
+                    <Label htmlFor="storeAddress">Store Address</Label>
                     <Textarea
-                      id="churchAddress"
-                      value={systemSettings.churchAddress || ''}
-                      onChange={(e) => setSystemSettings(prev => ({ ...prev, churchAddress: e.target.value }))}
-                      rows={2}
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="announcement">Announcement</Label>
-                    <Textarea
-                      id="announcement"
-                      value={systemSettings.announcement || ''}
-                      onChange={(e) => setSystemSettings(prev => ({ ...prev, announcement: e.target.value }))}
+                      id="storeAddress"
+                      value={systemSettings.storeAddress || ''}
+                      onChange={(e) => setSystemSettings(prev => ({ ...prev, storeAddress: e.target.value }))}
                       rows={2}
                     />
                   </div>
                   <div className="space-y-4">
                     <div className="flex items-center justify-between">
                       <div>
-                        <Label>Enable Online Giving</Label>
-                        <p className="text-sm text-gray-500">Allow online donations</p>
+                        <Label>Enable Payment</Label>
+                        <p className="text-sm text-gray-500">Allow online payments</p>
                       </div>
                       <Switch
-                        checked={systemSettings.enableOnlineGiving}
-                        onCheckedChange={(checked) => setSystemSettings(prev => ({ ...prev, enableOnlineGiving: checked }))}
-                      />
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <Label>Enable Event Registration</Label>
-                        <p className="text-sm text-gray-500">Allow members to register for events</p>
-                      </div>
-                      <Switch
-                        checked={systemSettings.enableEventRegistration}
-                        onCheckedChange={(checked) => setSystemSettings(prev => ({ ...prev, enableEventRegistration: checked }))}
-                      />
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <Label>Enable Prayer Requests</Label>
-                        <p className="text-sm text-gray-500">Allow members to submit prayer requests</p>
-                      </div>
-                      <Switch
-                        checked={systemSettings.enablePrayerRequests}
-                        onCheckedChange={(checked) => setSystemSettings(prev => ({ ...prev, enablePrayerRequests: checked }))}
+                        checked={systemSettings.enablePayment}
+                        onCheckedChange={(checked) => setSystemSettings(prev => ({ ...prev, enablePayment: checked }))}
                       />
                     </div>
                     <div className="flex items-center justify-between p-4 border rounded-lg bg-red-50 border-red-200">

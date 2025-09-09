@@ -52,7 +52,7 @@ async function seedSystemSettings() {
       defaultLanguage: 'en-US',
       facebookUrl: 'https://facebook.com/atelier7x',
       twitterUrl: 'https://twitter.com/atelier7x',
-      instagramUrl: 'https://instagram.com/atelier7x',
+      instagramUrl: 'https://instagram.com/atelier_7x',
       supportPhone: '+1 (800) 555-7890',
       privacyPolicyUrl: '/privacy-policy',
       termsUrl: '/terms',

@@ -6,7 +6,7 @@ import { Palette, Mail, Instagram, Facebook, Twitter } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
-import { useSystemSettings } from '@/hooks/useSystemSettings';
+import { useSystemSettings } from '@/context/settings-context';
 
 export function Footer() {
   const [email, setEmail] = useState('');
@@ -20,7 +20,7 @@ export function Footer() {
     // Simulate newsletter signup
     setTimeout(() => {
       toast.success('Thank you for subscribing!', {
-        description: `You'll receive updates about new artworks from ${storeName || 'ATELIER 7X'}.`,
+        description: `You'll receive updates about new artworks from ${storeName || 'My Store'}.`,
       });
       setEmail('');
       setIsLoading(false);
@@ -38,7 +38,7 @@ export function Footer() {
                 <Palette className="h-7 w-7 text-white drop-shadow" />
               </span>
               <span className="font-display text-2xl font-extrabold gradient-text tracking-wide">
-                {storeName || 'ATELIER 7X'}
+                {storeName || 'My Store'}
               </span>
             </Link>
             <p className="text-base text-gray-700 dark:text-gray-200 max-w-xs">
@@ -166,7 +166,7 @@ export function Footer() {
         <div className="mt-16 border-t border-white/20 pt-8">
           <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
             <p className="text-sm text-gray-700 dark:text-gray-300">
-              © 2024 {storeName || 'ATELIER 7X'}. All rights reserved.
+              © 2024 {storeName || 'My Store'}. All rights reserved.
             </p>
             <div className="flex space-x-6 text-sm">
               <Link href="#" className="text-gray-700 dark:text-gray-300 hover:text-primary transition-colors">

@@ -1,12 +1,11 @@
 import './globals.css';
 import type { Metadata } from 'next';
 import { Inter, Playfair_Display } from 'next/font/google';
-import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from '@/components/ui/sonner';
-import { Header } from '@/components/header';
+import Header from '@/components/header';
 import { Footer } from '@/components/footer';
 import Providers from '@/app/providers';
-import { getStoreSettings } from '@/lib/settings';
+import { getStoreSettings, StoreSettings } from '@/lib/settings';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 const playfair = Playfair_Display({ subsets: ['latin'], variable: '--font-playfair' });
@@ -27,11 +26,11 @@ export async function generateMetadata(): Promise<Metadata> {
   } catch (error) {
     // Fallback metadata if settings can't be loaded
     return {
-      title: 'ATELIER 7X - Contemporary Art Gallery & Store',
-      description: 'Discover contemporary paintings and artworks at ATELIER 7X. Explore our collection of original paintings, mixed media, and artistic creations.',
+      title: 'My Store - Contemporary Art Gallery & Store',
+      description: 'Discover contemporary paintings and artworks at My Store. Explore our collection of original paintings, mixed media, and artistic creations.',
       keywords: 'art gallery, paintings, contemporary art, original artwork, artist store',
       openGraph: {
-        title: 'ATELIER 7X - Contemporary Art Gallery',
+        title: 'My Store - Contemporary Art Gallery',
         description: 'Discover contemporary paintings and artworks',
         type: 'website',
       },
@@ -39,24 +38,25 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  // Preload settings server-side to avoid flash
+  const settings = await getStoreSettings();
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} ${playfair.variable} font-sans antialiased`}>
-        <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
-          <Providers>
-            <Header />
-            <div className="min-h-screen flex flex-col">
-              {children}
-            </div>
-            <Footer />
-            <Toaster />
-          </Providers>
-        </ThemeProvider>
+        <Providers initialSettings={settings}>
+          <Header />
+          <div className="min-h-screen flex flex-col">
+            {children}
+          </div>
+          <Footer />
+          <Toaster />
+        </Providers>
       </body>
     </html>
   );

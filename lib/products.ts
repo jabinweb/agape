@@ -45,7 +45,7 @@ const transformProduct = (dbProduct: any): Product => ({
   saleEndDate: dbProduct.saleEndDate,
   image: dbProduct.imageUrl || 
     (dbProduct.images?.[0]?.url) || 
-    'https://images.pexels.com/photos/1266808/pexels-photo-1266808.jpeg?auto=compress&cs=tinysrgb&w=1200', // Fallback image
+    'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=400&fit=crop&auto=format', // Fallback image
   images: dbProduct.images?.map((img: any) => ({ 
     id: img.id, 
     url: img.url, 

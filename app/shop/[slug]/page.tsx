@@ -9,7 +9,7 @@ import { ShoppingCart, Star, Truck, Shield, RefreshCw, ArrowLeft, Heart, Sun, Mo
 import { motion } from 'framer-motion'
 import { toast } from 'sonner'
 import { useCart } from '@/context/cart-context'
-import { useSystemSettings } from '@/hooks/useSystemSettings'
+import { useSystemSettings } from '@/context/settings-context'
 import { useTheme } from 'next-themes'
 import Link from 'next/link'
 import Image from 'next/image'

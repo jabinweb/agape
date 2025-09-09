@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 import { redirect } from 'next/navigation'
-import { useSystemSettings } from '@/hooks/useSystemSettings'
+import { useSystemSettings } from '@/context/settings-context'
 import { AdminNavigation, MobileAdminHeader } from '@/components/admin/AdminNavigation'
 
 export default function AdminLayout({

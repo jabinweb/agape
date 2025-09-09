@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ShoppingBag, Eye } from 'lucide-react';
 import { useCart } from '@/context/cart-context';
-import { useSystemSettings } from '@/hooks/useSystemSettings';
+import { useSystemSettings } from '@/context/settings-context';
 
 // Define our own Product type that can accept both static and dynamic data
 export interface Product {
@@ -43,7 +43,7 @@ export function ProductCard({ product, featured = false }: ProductCardProps) {
       id: product.id,
       title: product.title,
       price: product.price,
-      image: product.imageUrl || product.image || '/placeholder-product.jpg',
+      image: product.imageUrl || product.image || 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=400&fit=crop&auto=format',
       medium: product.medium || 'Mixed Media',
       size: product.dimensions || '',
     });
@@ -55,12 +55,16 @@ export function ProductCard({ product, featured = false }: ProductCardProps) {
     >
       <div className="relative aspect-square overflow-hidden">
         <Image
-          src={product.imageUrl || product.image || '/placeholder-product.jpg'}
+          src={product.imageUrl || product.image || 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=400&fit=crop&auto=format'}
           alt={product.title}
           fill
           sizes={featured ? "(max-width: 768px) 100vw, 50vw" : "(max-width: 768px) 100vw, 25vw"}
           className="object-cover image-zoom"
           priority={featured}
+          onError={(e) => {
+            const target = e.target as HTMLImageElement;
+            target.src = 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=400&fit=crop&auto=format';
+          }}
         />
         {/* Overlay on hover */}
         <div className="absolute inset-0 bg-gradient-to-br from-black/70 via-blue-900/40 to-purple-900/40 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center gap-3 backdrop-blur-sm">

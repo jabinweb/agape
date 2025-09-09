@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { ArrowRight, Palette, Heart, Star } from 'lucide-react';
 import { Product } from '@/lib/products';
 import { ProductSlider } from './shop/product-slider';
-import { useSystemSettings } from '@/hooks/useSystemSettings';
+import { useSystemSettings } from '@/context/settings-context';
 
 interface HeroSectionProps {
   featuredProducts: Product[];
@@ -29,7 +29,7 @@ export function HeroSection({ featuredProducts }: HeroSectionProps) {
                 filter: 'drop-shadow(0 0 10px rgba(147, 51, 234, 0.3)) drop-shadow(0 0 20px rgba(236, 72, 153, 0.2))',
               }}
             >
-              {storeName || 'ATELIER 7X'}
+              {storeName || 'My Store'}
             </span>
           </h1>
           <p className="text-xl sm:text-2xl md:text-3xl font-semibold text-gray-800 dark:text-white/90">

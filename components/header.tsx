@@ -19,7 +19,7 @@ import {
   DropdownMenuTrigger 
 } from '@/components/ui/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { useSystemSettings } from '@/hooks/useSystemSettings';
+import { useSystemSettings } from '@/context/settings-context';
 
 const navigation = [
   { name: 'Home', href: '/' },
@@ -30,11 +30,17 @@ const navigation = [
 
 export function Header() {
   const pathname = usePathname();
-  const { theme, setTheme } = useTheme();
   const { state } = useCart();
   const [isOpen, setIsOpen] = React.useState(false);
+  const [mounted, setMounted] = React.useState(false);
   const { data: session, status } = useSession();
   const { storeName } = useSystemSettings();
+  
+  const { theme, setTheme } = useTheme();
+  
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
   
   const handleSignOut = async () => {
     await signOut({ callbackUrl: '/' });
@@ -48,7 +54,7 @@ export function Header() {
           <Link href="/" className="flex items-center space-x-2 group">
             <Palette className="h-8 w-8 text-primary drop-shadow-lg" />
             <span className="font-inter text-2xl font-extrabold gradient-text drop-shadow-lg group-hover:scale-105 transition-transform">
-              {storeName || 'ATELIER 7X'}
+              {storeName || 'My Store'}
             </span>
           </Link>
 
@@ -76,16 +82,18 @@ export function Header() {
           {/* Right Side Actions */}
           <div className="flex items-center space-x-4">
             {/* Theme Toggle */}
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-              className="hidden sm:inline-flex hover:bg-primary/10"
-            >
-              <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0 text-yellow-400" />
-              <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100 text-blue-400" />
-              <span className="sr-only">Toggle theme</span>
-            </Button>
+            {mounted && (
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+                className="hidden sm:inline-flex hover:bg-primary/10"
+              >
+                <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0 text-yellow-400" />
+                <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100 text-blue-400" />
+                <span className="sr-only">Toggle theme</span>
+              </Button>
+            )}
 
             {/* Cart */}
             <Link href="/cart">
@@ -253,12 +261,13 @@ export function Header() {
                   ))}
                   
                   {/* Theme Toggle */}
-                  <Button
-                    variant="ghost"
-                    onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-                    className="justify-start p-0 text-lg font-semibold text-gray-900 dark:text-gray-100 hover:text-primary"
-                  >
-                    {theme === 'light' ? (
+                  {mounted && (
+                    <Button
+                      variant="ghost"
+                      onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+                      className="justify-start p-0 text-lg font-semibold text-gray-900 dark:text-gray-100 hover:text-primary"
+                    >
+                      {theme === 'light' ? (
                       <>
                         <Moon className="mr-2 h-5 w-5" />
                         Dark Mode
@@ -270,6 +279,7 @@ export function Header() {
                       </>
                     )}
                   </Button>
+                  )}
                   
                   {/* Auth Actions for Mobile */}
                   {!session?.user && (
@@ -298,3 +308,5 @@ export function Header() {
     </header>
   );
 }
+
+export default Header;

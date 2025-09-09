@@ -12,7 +12,7 @@ import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
 import { Minus, Plus, Trash2, ShoppingBag, CreditCard, Shield, RefreshCw, ArrowRight, Info } from 'lucide-react';
 import { useCart } from '@/context/cart-context';
-import { useSystemSettings } from '@/hooks/useSystemSettings';
+import { useSystemSettings } from '@/context/settings-context';
 import { toast } from 'sonner';
 import {
   Tooltip,

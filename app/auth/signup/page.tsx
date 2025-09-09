@@ -84,11 +84,11 @@ function SignupPageContent() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <Card className="w-full max-w-md">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50/80 via-purple-50/60 to-orange-50/40 dark:from-gray-900 dark:via-purple-900/20 dark:to-gray-900 py-12 px-4 sm:px-6 lg:px-8">
+      <Card className="w-full max-w-md shadow-xl border-0 backdrop-blur-sm bg-white/90 dark:bg-gray-900/90">
         <CardHeader className="text-center">
-          <CardTitle className="text-2xl font-bold">Create Account</CardTitle>
-          <CardDescription>
+          <CardTitle className="text-2xl font-bold text-gray-900 dark:text-white">Create Account</CardTitle>
+          <CardDescription className="text-gray-600 dark:text-gray-300">
             Join thousands of successful entrepreneurs
           </CardDescription>
         </CardHeader>

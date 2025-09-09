@@ -49,7 +49,7 @@ export async function GET(request: NextRequest) {
       saleEndDate: product.saleEndDate,
       image: product.imageUrl || 
         (product.images?.[0]?.url) || 
-        'https://images.pexels.com/photos/1266808/pexels-photo-1266808.jpeg?auto=compress&cs=tinysrgb&w=1200',
+        'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=400&fit=crop&auto=format',
       images: product.images?.map((img: any) => ({ 
         id: img.id, 
         url: img.url, 

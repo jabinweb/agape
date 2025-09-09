@@ -47,11 +47,11 @@ export async function getStoreSettings(): Promise<StoreSettings> {
       // Create default settings if none exist
       settings = await prisma.systemSettings.create({
         data: {
-          storeName: 'ATELIER 7X',
+          storeName: 'My Store',
           storeAddress: '123 Art Gallery Street, New York, NY 10001',
           storePhone: '+1 (212) 555-7890',
-          storeEmail: 'contact@atelier7x.com',
-          storeWebsite: 'https://atelier7x.com',
+          storeEmail: 'contact@mystore.com',
+          storeWebsite: 'https://mystore.com',
           enablePayment: true,
           maintenanceMode: false,
           currency: 'INR'
@@ -89,11 +89,11 @@ export async function getStoreSettings(): Promise<StoreSettings> {
     
     // Return default settings if database fails
     return {
-      storeName: 'ATELIER 7X',
+      storeName: 'My Store',
       storeAddress: '123 Art Gallery Street, New York, NY 10001',
       storePhone: '+1 (212) 555-7890',
-      storeEmail: 'contact@atelier7x.com',
-      storeWebsite: 'https://atelier7x.com',
+      storeEmail: 'contact@mystore.com',
+      storeWebsite: 'https://mystore.com',
       enablePayment: true,
       maintenanceMode: false,
       currency: 'INR'

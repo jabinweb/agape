@@ -18,8 +18,8 @@ async function fetchSettings() {
     .catch(() => {
       cachedSettings = { 
         currency: 'INR',
-        storeName: 'ATELIER 7X',
-        storeEmail: 'contact@atelier7x.com',
+        storeName: 'My Store',
+        storeEmail: 'contact@mystore.com',
         storePhone: '+1 (212) 555-7890',
         enablePayment: true,
         maintenanceMode: false,
@@ -68,7 +68,7 @@ export function useSystemSettings() {
     currency, 
     currencySymbol,
     // Provide both new and legacy field names for compatibility
-    storeName: settings?.storeName || 'ATELIER 7X',
-    shopName: settings?.storeName || 'ATELIER 7X', // legacy alias
+    storeName: settings?.storeName || 'My Store',
+    shopName: settings?.storeName || 'My Store', // legacy alias
   }
 }

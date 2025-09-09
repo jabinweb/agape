@@ -7,8 +7,10 @@ import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Mail, Phone, MapPin, Clock, Instagram, Facebook, Twitter } from 'lucide-react';
 import { toast } from 'sonner';
+import { useSystemSettings } from '@/context/settings-context';
 
 export default function ContactPage() {
+  const { storeName, storeEmail } = useSystemSettings();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -155,7 +157,7 @@ export default function ContactPage() {
                     </div>
                     <div>
                       <p className="font-medium">Email</p>
-                      <p className="text-muted-foreground">info@atelier7x.com</p>
+                      <p className="text-muted-foreground">{storeEmail || 'contact@mystore.com'}</p>
                     </div>
                   </div>
                   

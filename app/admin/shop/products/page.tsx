@@ -24,7 +24,7 @@ import { Search, Plus, Edit, Trash2, MoreHorizontal, Download, Package } from 'l
 import { toast } from 'sonner'
 import Link from 'next/link'
 import Image from 'next/image'
-import { useSystemSettings } from '@/hooks/useSystemSettings'
+import { useSystemSettings } from '@/context/settings-context'
 
 interface Product {
   id: string

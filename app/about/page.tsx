@@ -1,11 +1,15 @@
+'use client';
+
 import React from 'react';
 import Image from 'next/image';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Palette, Heart, Lightbulb, Award, ArrowRight, Calendar, MapPin, Link, Mail } from 'lucide-react';
+import { useSystemSettings } from '@/context/settings-context';
 
 export default function AboutPage() {
+  const { storeName } = useSystemSettings();
   return (
     <div className="min-h-screen bg-background">
      
@@ -27,7 +31,7 @@ export default function AboutPage() {
         <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-4xl mx-auto">
             <div className="inline-block mb-4 rounded-full px-3 py-1 text-sm font-semibold bg-blue-100 text-blue-800 dark:bg-blue-400/30 dark:text-blue-100">
-              Atelier 7X • About the Artist
+              {storeName || 'My Store'} • About the Artist
             </div>
             <h1 className="font-display text-5xl !leading-[1.5em] md:text-7xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-purple-600 to-orange-600 dark:from-blue-300 dark:via-purple-300 dark:to-orange-300">
               How it all began…
@@ -323,11 +327,11 @@ export default function AboutPage() {
               </div>
               <div className="flex items-center gap-2 text-muted-foreground">
                 <Mail className="h-4 w-4" />
-                <span>contact@atelier7x.com</span>
+                <span>{storeName ? `${storeName.toLowerCase().replace(/\s+/g, '')}@example.com` : 'contact@mystore.com'}</span>
               </div>
               <div className="flex items-center gap-2 text-muted-foreground">
                 <Link className="h-4 w-4" />
-                <span>@atelier7x</span>
+                <span>@{storeName ? storeName.toLowerCase().replace(/\s+/g, '') : 'mystore'}</span>
               </div>
             </div>
           </div>

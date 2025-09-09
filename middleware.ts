@@ -30,7 +30,7 @@ export async function middleware(request: NextRequest) {
 
   if (isProtectedRoute) {
     // Use getToken instead of auth() to avoid bcryptjs in Edge Runtime
-    const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET })
+    const token = await getToken({ req: request, secret: process.env.AUTH_SECRET })
 
     // Redirect to sign-in if not authenticated
     if (!token) {

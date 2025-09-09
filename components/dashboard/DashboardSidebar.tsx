@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { usePathname } from 'next/navigation'
 import { useSession, signOut } from 'next-auth/react'
-import { useSystemSettings } from '@/hooks/useSystemSettings'
+import { useSystemSettings } from '@/context/settings-context'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { cn } from '@/lib/utils'
@@ -130,7 +130,7 @@ export function DashboardSidebar({ isMobileOpen, setIsMobileOpen }: DashboardSid
           <div className="mb-8 flex items-center gap-3">
             <Palette className="h-8 w-8 text-primary drop-shadow-lg" />
             <div>
-              <h2 className="font-inter text-xl font-extrabold gradient-text drop-shadow-lg">{storeName || 'ATELIER 7X'}</h2>
+              <h2 className="font-inter text-xl font-extrabold gradient-text drop-shadow-lg">{storeName || 'My Store'}</h2>
               <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Art Collector Portal</p>
             </div>
           </div>
@@ -146,7 +146,7 @@ export function DashboardSidebar({ isMobileOpen, setIsMobileOpen }: DashboardSid
           <div className="flex items-center gap-3">
             <Palette className="h-8 w-8 text-primary drop-shadow-lg" />
             <div>
-              <h2 className="font-inter text-xl font-extrabold gradient-text drop-shadow-lg">{storeName || 'ATELIER 7X'}</h2>
+              <h2 className="font-inter text-xl font-extrabold gradient-text drop-shadow-lg">{storeName || 'My Store'}</h2>
               <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Art Collector Portal</p>
             </div>
           </div>
@@ -270,7 +270,7 @@ export function DashboardSidebar({ isMobileOpen, setIsMobileOpen }: DashboardSid
       <div className="p-4 border-t border-gray-200 dark:border-gray-800 flex-shrink-0">
         <div className="text-center">
           <p className="text-xs text-gray-700 dark:text-gray-300">
-            {storeName || 'Atelier 7X'} © {new Date().getFullYear()}
+            {storeName || 'My Store'} © {new Date().getFullYear()}
           </p>
         </div>
       </div>

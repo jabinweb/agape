@@ -7,7 +7,7 @@ import CollectionSection from '@/components/shop/collection-section';
 import { InstagramSection } from '@/components/instagram-section';
 import { HeroSection } from '@/components/hero-section';
 import { FeaturedSection } from '@/components/shop/featured-section';
-import { useSystemSettings } from '@/hooks/useSystemSettings';
+import { useSystemSettings } from '@/context/settings-context';
 import { useEffect, useState } from 'react';
 
 export default function HomePage() {
@@ -51,7 +51,7 @@ export default function HomePage() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-extrabold mb-4 gradient-text drop-shadow-lg">
-              Why Choose {storeName || 'ATELIER 7X'}
+              Why Choose {storeName || 'My Store'}
             </h2>
             <p className="text-lg text-gray-700 dark:text-gray-200 max-w-2xl mx-auto">
               More than just paintings—we create experiences that transform spaces and inspire souls.
