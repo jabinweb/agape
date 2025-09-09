@@ -134,6 +134,7 @@ export async function PUT(
       imageUrl: body.imageUrl,
       tags: body.tags || [],
       categoryId: body.categoryId && body.categoryId !== "none" ? body.categoryId : null,
+      authorId: body.authorId || existingPost.authorId, // Allow author changes for admins
       updatedAt: new Date()
     }
     

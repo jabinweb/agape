@@ -27,6 +27,8 @@ import {
 import Image from 'next/image'
 import Link from 'next/link'
 import { format } from 'date-fns'
+import { useSystemSettings } from '@/hooks/useSystemSettings'
+import { formatCurrency } from '@/lib/utils'
 
 interface Member {
   id: string
@@ -79,6 +81,7 @@ export default function ViewMemberPage() {
   const [activity, setActivity] = useState<MemberActivity | null>(null)
   const [loading, setLoading] = useState(true)
   const [activeTab, setActiveTab] = useState('overview')
+  const { settings } = useSystemSettings()
 
   const fetchMember = useCallback(async () => {
     try {
@@ -258,7 +261,7 @@ export default function ViewMemberPage() {
                   <div className="ml-4">
                     <p className="text-sm font-medium text-gray-600">Total Donations</p>
                     <p className="text-2xl font-bold text-gray-900">
-                      ${activity?.donations?.reduce((sum, d) => sum + d.amount, 0)?.toFixed(2) || '0.00'}
+                      {formatCurrency(activity?.donations?.reduce((sum, d) => sum + d.amount, 0) || 0, settings?.currency || 'INR')}
                     </p>
                   </div>
                 </div>
@@ -322,7 +325,7 @@ export default function ViewMemberPage() {
                   <div key={donation.id} className="flex items-center space-x-4 p-4 bg-green-50 rounded-lg">
                     <DollarSign className="h-5 w-5 text-green-600" />
                     <div className="flex-1">
-                      <p className="font-medium">Donated ${donation.amount.toFixed(2)}</p>
+                      <p className="font-medium">Donated {formatCurrency(donation.amount, settings?.currency || 'INR')}</p>
                       <p className="text-sm text-gray-600">To {donation.fund.name}</p>
                     </div>
                     <span className="text-sm text-gray-500">
@@ -505,7 +508,7 @@ export default function ViewMemberPage() {
                     {activity.donations.map((donation) => (
                       <div key={donation.id} className="flex justify-between items-center p-3 border rounded-lg">
                         <div>
-                          <p className="font-medium">${donation.amount.toFixed(2)}</p>
+                          <p className="font-medium">{formatCurrency(donation.amount, settings?.currency || 'INR')}</p>
                           <p className="text-sm text-gray-600">{donation.fund.name}</p>
                         </div>
                         <span className="text-sm text-gray-500">

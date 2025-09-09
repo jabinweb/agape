@@ -41,14 +41,14 @@ export const getRazorpayKeyId = () => {
   return config.keyId
 }
 
-export const createOrder = async (amount: number, orderId: string): Promise<any> => {
+export const createOrder = async (amount: number, orderId: string, currency: string = 'INR'): Promise<any> => {
   try {
     
     const razorpayInstance = createRazorpayInstance()
     
     const order = await razorpayInstance.orders.create({
       amount: Math.round(amount * 100), // Convert to paise
-      currency: 'INR',
+      currency: currency,
       receipt: orderId,
       payment_capture: true,
     })

@@ -380,7 +380,7 @@ export default function FileManagementPage() {
   const getFileIcon = (file: FileItem) => {
     if (file.type === 'folder') return <Folder className="h-6 w-6 text-blue-500" />
     
-    if (!file.mimeType) return <File className="h-6 w-6 text-gray-500" />
+    if (!file.mimeType) return <File className="h-6 w-6 text-gray-500 dark:text-gray-400" />
     
     if (file.mimeType.startsWith('image/')) return <ImageIcon className="h-6 w-6 text-green-500" />
     if (file.mimeType.startsWith('video/')) return <Video className="h-6 w-6 text-red-500" />
@@ -390,7 +390,7 @@ export default function FileManagementPage() {
     if (file.mimeType.includes('spreadsheet') || file.mimeType.includes('excel')) return <FileText className="h-6 w-6 text-green-600" />
     if (file.mimeType.includes('archive') || file.mimeType.includes('zip')) return <Archive className="h-6 w-6 text-orange-500" />
     
-    return <File className="h-6 w-6 text-gray-500" />
+    return <File className="h-6 w-6 text-gray-500 dark:text-gray-400" />
   }
 
   const formatFileSize = (bytes: number) => {
@@ -463,7 +463,7 @@ export default function FileManagementPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
       <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8 py-4 lg:py-8">
         {/* Header */}
         <motion.div
@@ -473,17 +473,17 @@ export default function FileManagementPage() {
         >
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
-              <h1 className="text-2xl lg:text-3xl font-bold bg-gradient-to-r from-slate-600 to-blue-600 bg-clip-text text-transparent">
+              <h1 className="text-2xl lg:text-3xl font-bold bg-gradient-to-r from-slate-600 to-blue-600 dark:from-slate-300 dark:to-blue-400 bg-clip-text text-transparent">
                 File Management
               </h1>
-              <p className="text-gray-600 mt-2 text-sm lg:text-base">Manage your organization&apos;s files and media assets</p>
+              <p className="text-gray-600 dark:text-gray-300 mt-2 text-sm lg:text-base">Manage your organization&apos;s files and media assets</p>
             </div>
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center space-y-2 sm:space-y-0 sm:space-x-3">
               <Button 
                 variant="outline" 
                 onClick={performSync} 
                 disabled={syncing}
-                className="bg-green-50 hover:bg-green-100 border-green-200 text-green-700 text-sm"
+                className="bg-green-50 hover:bg-green-100 dark:bg-green-950 dark:hover:bg-green-900 border-green-200 dark:border-green-800 text-green-700 dark:text-green-300 text-sm"
                 size="sm"
               >
                 {syncing ? (
@@ -500,7 +500,7 @@ export default function FileManagementPage() {
               </Button>
               
               {lastSync && (
-                <span className="text-xs text-gray-500 hidden sm:inline">
+                <span className="text-xs text-gray-500 dark:text-gray-400 hidden sm:inline">
                   Last sync: {format(new Date(lastSync), 'HH:mm:ss')}
                 </span>
               )}
@@ -560,7 +560,7 @@ export default function FileManagementPage() {
                   <div
                     {...getRootProps()}
                     className={`border-2 border-dashed rounded-lg p-8 text-center transition-colors ${
-                      isDragActive ? 'border-blue-500 bg-blue-50' : 'border-gray-300'
+                      isDragActive ? 'border-blue-500 bg-blue-50 dark:bg-blue-950' : 'border-gray-300 dark:border-gray-600'
                     }`}
                   >
                     <input {...getInputProps()} />
@@ -571,11 +571,11 @@ export default function FileManagementPage() {
                       </div>
                     ) : (
                       <div className="flex flex-col items-center">
-                        <Upload className="h-12 w-12 text-gray-400 mb-4" />
-                        <p className="text-lg font-medium text-gray-900 mb-2">
+                        <Upload className="h-12 w-12 text-gray-400 dark:text-gray-500 mb-4" />
+                        <p className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">
                           Drop files here or click to browse
                         </p>
-                        <p className="text-sm text-gray-500">
+                        <p className="text-sm text-gray-500 dark:text-gray-400">
                           Support for all file types up to 50MB per file
                         </p>
                       </div>
@@ -667,7 +667,7 @@ export default function FileManagementPage() {
           transition={{ delay: 0.2 }}
           className="mb-6"
         >
-          <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm">
+          <Card className="border-0 shadow-lg bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm">
             <CardContent className="p-3 lg:p-6">
               {/* Breadcrumb - Mobile responsive */}
               <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-4 space-y-2 lg:space-y-0">
@@ -677,7 +677,7 @@ export default function FileManagementPage() {
                   </Button>
                   {currentPath.split('/').filter(p => p).map((part, index, array) => (
                     <div key={index} className="flex items-center">
-                      <span className="text-gray-400 mx-2">/</span>
+                      <span className="text-gray-400 dark:text-gray-500 mx-2">/</span>
                       <Button
                         variant="ghost"
                         size="sm"
@@ -685,7 +685,7 @@ export default function FileManagementPage() {
                           const newPath = '/' + array.slice(0, index + 1).join('/')
                           setCurrentPath(newPath)
                         }}
-                        className={index === array.length - 1 ? 'text-blue-600 font-medium' : ''}
+                        className={index === array.length - 1 ? 'text-blue-600 dark:text-blue-400 font-medium' : ''}
                       >
                         {part}
                       </Button>
@@ -751,7 +751,7 @@ export default function FileManagementPage() {
                   </span>
                   {selectedFiles.length > 0 && (
                     <div className="flex items-center space-x-2">
-                      <span className="text-sm text-blue-600">
+                      <span className="text-sm text-blue-600 dark:text-blue-400">
                         {selectedFiles.length} selected
                       </span>
                       <Button size="sm" variant="outline" onClick={handleBulkDelete}>
@@ -778,9 +778,9 @@ export default function FileManagementPage() {
           ) : filteredFiles.length === 0 ? (
             <Card className="border-0 shadow-lg">
               <CardContent className="p-12 text-center">
-                <File className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">No files found</h3>
-                <p className="text-gray-600 mb-6">
+                <File className="h-16 w-16 text-gray-400 dark:text-gray-500 mx-auto mb-4" />
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">No files found</h3>
+                <p className="text-gray-600 dark:text-gray-300 mb-6">
                   {searchTerm ? 'Try adjusting your search criteria' : 'Upload some files to get started'}
                 </p>
                 <Button onClick={() => setUploadDialogOpen(true)}>
@@ -803,7 +803,7 @@ export default function FileManagementPage() {
                       <div className="relative">
                         {/* File Preview */}
                         <div 
-                          className="aspect-square bg-gradient-to-br from-gray-100 to-gray-200 rounded-lg flex items-center justify-center mb-3 relative overflow-hidden"
+                          className="aspect-square bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800 rounded-lg flex items-center justify-center mb-3 relative overflow-hidden"
                           onClick={() => file.type === 'folder' ? navigateToFolder(file.id, file.name) : previewFile(file)}
                         >
                           {file.mimeType?.startsWith('image/') && file.url ? (
@@ -871,16 +871,16 @@ export default function FileManagementPage() {
 
                         {/* File Info */}
                         <div>
-                          <h4 className="font-medium text-sm text-gray-900 truncate mb-1">
+                          <h4 className="font-medium text-sm text-gray-900 dark:text-gray-100 truncate mb-1">
                             {file.name}
                           </h4>
-                          <div className="flex items-center justify-between text-xs text-gray-500">
+                          <div className="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400">
                             <span>{file.size ? formatFileSize(file.size) : '--'}</span>
                             <Badge variant={file.isPublic ? 'default' : 'secondary'}>
                               {file.isPublic ? 'Public' : 'Private'}
                             </Badge>
                           </div>
-                          <p className="text-xs text-gray-400 mt-1">
+                          <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">
                             {format(new Date(file.createdAt), 'MMM dd, yyyy')}
                           </p>
                         </div>
@@ -895,9 +895,9 @@ export default function FileManagementPage() {
               <CardContent className="p-0">
                 <div className="overflow-x-auto">
                   <table className="w-full min-w-[600px]">
-                    <thead className="bg-gray-50 border-b">
+                    <thead className="bg-gray-50 dark:bg-gray-800 border-b dark:border-gray-700">
                       <tr>
-                        <th className="text-left py-3 px-6 font-medium text-gray-700">
+                        <th className="text-left py-3 px-6 font-medium text-gray-700 dark:text-gray-300">
                           <input
                             type="checkbox"
                             checked={selectedFiles.length === filteredFiles.length && filteredFiles.length > 0}
@@ -908,20 +908,20 @@ export default function FileManagementPage() {
                                 setSelectedFiles([])
                               }
                             }}
-                            className="rounded border-gray-300"
+                            className="rounded border-gray-300 dark:border-gray-600"
                           />
                         </th>
-                        <th className="text-left py-3 px-6 font-medium text-gray-700">Name</th>
-                        <th className="text-left py-3 px-6 font-medium text-gray-700">Type</th>
-                        <th className="text-left py-3 px-6 font-medium text-gray-700">Size</th>
-                        <th className="text-left py-3 px-6 font-medium text-gray-700">Modified</th>
-                        <th className="text-left py-3 px-6 font-medium text-gray-700">Uploaded By</th>
-                        <th className="text-left py-3 px-6 font-medium text-gray-700">Actions</th>
+                        <th className="text-left py-3 px-6 font-medium text-gray-700 dark:text-gray-300">Name</th>
+                        <th className="text-left py-3 px-6 font-medium text-gray-700 dark:text-gray-300">Type</th>
+                        <th className="text-left py-3 px-6 font-medium text-gray-700 dark:text-gray-300">Size</th>
+                        <th className="text-left py-3 px-6 font-medium text-gray-700 dark:text-gray-300">Modified</th>
+                        <th className="text-left py-3 px-6 font-medium text-gray-700 dark:text-gray-300">Uploaded By</th>
+                        <th className="text-left py-3 px-6 font-medium text-gray-700 dark:text-gray-300">Actions</th>
                       </tr>
                     </thead>
                     <tbody>
                       {filteredFiles.map((file) => (
-                        <tr key={file.id} className="border-b hover:bg-gray-50 transition-colors">
+                        <tr key={file.id} className="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
                           <td className="py-4 px-6">
                             <input
                               type="checkbox"
@@ -933,7 +933,7 @@ export default function FileManagementPage() {
                                   setSelectedFiles(selectedFiles.filter(id => id !== file.id))
                                 }
                               }}
-                              className="rounded border-gray-300"
+                              className="rounded border-gray-300 dark:border-gray-600"
                             />
                           </td>
                           <td className="py-4 px-6">
@@ -943,7 +943,7 @@ export default function FileManagementPage() {
                             >
                               {getFileIcon(file)}
                               <div>
-                                <p className="font-medium text-gray-900">{file.name}</p>
+                                <p className="font-medium text-gray-900 dark:text-gray-100">{file.name}</p>
                                 {file.tags.length > 0 && (
                                   <div className="flex space-x-1 mt-1">
                                     {file.tags.slice(0, 2).map((tag) => (
@@ -956,16 +956,16 @@ export default function FileManagementPage() {
                               </div>
                             </div>
                           </td>
-                          <td className="py-4 px-6 text-gray-600">
+                          <td className="py-4 px-6 text-gray-600 dark:text-gray-300">
                             {file.type === 'folder' ? 'Folder' : file.mimeType || 'Unknown'}
                           </td>
-                          <td className="py-4 px-6 text-gray-600">
+                          <td className="py-4 px-6 text-gray-600 dark:text-gray-300">
                             {file.size ? formatFileSize(file.size) : '--'}
                           </td>
-                          <td className="py-4 px-6 text-gray-600">
+                          <td className="py-4 px-6 text-gray-600 dark:text-gray-300">
                             {format(new Date(file.updatedAt), 'MMM dd, yyyy HH:mm')}
                           </td>
-                          <td className="py-4 px-6 text-gray-600">
+                          <td className="py-4 px-6 text-gray-600 dark:text-gray-300">
                             <div className="flex items-center space-x-2">
                               <User className="h-4 w-4" />
                               <span>{file.uploadedBy.name}</span>
@@ -1077,7 +1077,7 @@ export default function FileManagementPage() {
                   <Input
                     readOnly
                     value={selectedFile?.url ? `${window.location.origin}${selectedFile.url}` : ''}
-                    className="bg-gray-50"
+                    className="bg-gray-50 dark:bg-gray-800"
                   />
                   <Button onClick={copyShareLink}>
                     <Copy className="h-4 w-4" />
@@ -1090,7 +1090,7 @@ export default function FileManagementPage() {
                   checked={selectedFile?.isPublic || false}
                   onChange={() => selectedFile && toggleFileVisibility(selectedFile)}
                   id="publicAccess"
-                  className="rounded border-gray-300"
+                  className="rounded border-gray-300 dark:border-gray-600"
                 />
                 <Label htmlFor="publicAccess">Allow public access</Label>
               </div>
@@ -1135,8 +1135,8 @@ export default function FileManagementPage() {
               )}
               {selectedFile && !selectedFile.mimeType?.match(/(image|video|audio|pdf)/) && (
                 <div className="text-center py-8">
-                  <File className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-                  <p className="text-gray-600">Preview not available for this file type</p>
+                  <File className="h-16 w-16 text-gray-400 dark:text-gray-500 mx-auto mb-4" />
+                  <p className="text-gray-600 dark:text-gray-300">Preview not available for this file type</p>
                   <Button onClick={() => downloadFile(selectedFile)} className="mt-4">
                     <Download className="h-4 w-4 mr-2" />
                     Download File

@@ -20,6 +20,8 @@ import {
 } from 'lucide-react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
+import { useSystemSettings } from '@/hooks/useSystemSettings'
+import { formatCurrency } from '@/lib/utils'
 
 interface UserProfile {
   id: string
@@ -55,6 +57,7 @@ export default function ProfilePage() {
   const [profile, setProfile] = useState<UserProfile | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const { settings } = useSystemSettings()
 
   const fetchProfile = useCallback(async (userId: string) => {
     try {
@@ -222,7 +225,7 @@ export default function ProfilePage() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-blue-100 text-sm">Wallet Balance</p>
-                  <p className="text-2xl font-bold">₹{profile.stats.walletBalance.toFixed(2)}</p>
+                  <p className="text-2xl font-bold">{formatCurrency(profile.stats.walletBalance, settings?.currency || 'INR')}</p>
                 </div>
                 <DollarSign className="h-8 w-8 text-blue-200" />
               </div>
@@ -258,7 +261,7 @@ export default function ProfilePage() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-yellow-100 text-sm">Personal Volume</p>
-                  <p className="text-xl font-bold">₹{profile.stats.personalVolume.toFixed(0)}</p>
+                  <p className="text-xl font-bold">{formatCurrency(profile.stats.personalVolume, settings?.currency || 'INR')}</p>
                 </div>
                 <Award className="h-8 w-8 text-yellow-200" />
               </div>
@@ -270,7 +273,7 @@ export default function ProfilePage() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-red-100 text-sm">Team Volume</p>
-                  <p className="text-xl font-bold">₹{profile.stats.teamVolume.toFixed(0)}</p>
+                  <p className="text-xl font-bold">{formatCurrency(profile.stats.teamVolume, settings?.currency || 'INR')}</p>
                 </div>
                 <TrendingUp className="h-8 w-8 text-red-200" />
               </div>
@@ -282,7 +285,7 @@ export default function ProfilePage() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-teal-100 text-sm">Total Earnings</p>
-                  <p className="text-xl font-bold">₹{profile.stats.totalEarnings.toFixed(2)}</p>
+                  <p className="text-xl font-bold">{formatCurrency(profile.stats.totalEarnings, settings?.currency || 'INR')}</p>
                 </div>
                 <DollarSign className="h-8 w-8 text-teal-200" />
               </div>
@@ -312,7 +315,7 @@ export default function ProfilePage() {
                         </p>
                       </div>
                       <div className="text-right">
-                        <p className="font-bold text-green-600">+₹{commission.amount.toFixed(2)}</p>
+                        <p className="font-bold text-green-600">+{formatCurrency(commission.amount, settings?.currency || 'INR')}</p>
                         <Badge variant={commission.status === 'PAID' ? 'default' : 'secondary'}>
                           {commission.status}
                         </Badge>

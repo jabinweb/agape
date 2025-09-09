@@ -99,10 +99,10 @@ export default function BlogPage() {
   }
 
   const statsData = [
-    { title: 'Total Posts', value: safeStats.totalPosts.toString(), icon: FileText, color: 'text-blue-600' },
-    { title: 'Published', value: safeStats.publishedPosts.toString(), icon: MessageSquare, color: 'text-green-600' },
-    { title: 'Total Views', value: safeStats.totalViews.toLocaleString(), icon: Eye, color: 'text-purple-600' },
-    { title: 'This Month', value: safeStats.thisMonthPosts.toString(), icon: TrendingUp, color: 'text-orange-600' },
+    { title: 'Total Posts', value: safeStats.totalPosts.toString(), icon: FileText, color: 'text-blue-600 dark:text-blue-400' },
+    { title: 'Published', value: safeStats.publishedPosts.toString(), icon: MessageSquare, color: 'text-green-600 dark:text-green-400' },
+    { title: 'Total Views', value: safeStats.totalViews.toLocaleString(), icon: Eye, color: 'text-purple-600 dark:text-purple-400' },
+    { title: 'This Month', value: safeStats.thisMonthPosts.toString(), icon: TrendingUp, color: 'text-orange-600 dark:text-orange-400' },
   ]
 
   // Ensure blogPosts is always an array
@@ -124,7 +124,7 @@ export default function BlogPage() {
   })
 
   const getStatusColor = (isPublished: boolean) => {
-    return isPublished ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
+    return isPublished ? 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400' : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400'
   }
 
   const getStatusText = (isPublished: boolean) => {
@@ -135,7 +135,7 @@ export default function BlogPage() {
     return (
       <div className="flex items-center justify-center h-64">
         <div className="text-center">
-          <p className="text-red-600 mb-4">Error loading blog data: {error}</p>
+          <p className="text-red-600 dark:text-red-400 mb-4">Error loading blog data: {error}</p>
           <Button onClick={fetchBlogData}>Try Again</Button>
         </div>
       </div>
@@ -147,10 +147,10 @@ export default function BlogPage() {
       {/* Header - Mobile responsive */}
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
         <div>
-          <h1 className="text-2xl lg:text-3xl font-bold text-gray-900">Blog Management</h1>
-          <p className="text-gray-600 mt-1 lg:mt-2 text-sm lg:text-base">Create and manage blog posts and articles</p>
+          <h1 className="text-2xl lg:text-3xl font-bold text-gray-900 dark:text-gray-100">Blog Management</h1>
+          <p className="text-gray-600 dark:text-gray-400 mt-1 lg:mt-2 text-sm lg:text-base">Create and manage blog posts and articles</p>
         </div>
-        <Button className="bg-purple-600 hover:bg-purple-700 w-full sm:w-auto" asChild>
+        <Button className="bg-purple-600 hover:bg-purple-700 dark:bg-purple-700 dark:hover:bg-purple-600 w-full sm:w-auto" asChild>
           <Link href="/admin/blog/new">
             <Plus className="mr-2 h-4 w-4" />
             New Post
@@ -164,11 +164,11 @@ export default function BlogPage() {
           Array.from({ length: 4 }).map((_, i) => (
             <Card key={i}>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 p-3 lg:p-6">
-                <div className="h-3 lg:h-4 bg-gray-200 rounded w-16 lg:w-20 animate-pulse"></div>
-                <div className="h-3 w-3 lg:h-4 lg:w-4 bg-gray-200 rounded animate-pulse"></div>
+                <div className="h-3 lg:h-4 bg-gray-200 dark:bg-gray-700 rounded w-16 lg:w-20 animate-pulse"></div>
+                <div className="h-3 w-3 lg:h-4 lg:w-4 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
               </CardHeader>
               <CardContent className="p-3 lg:p-6 pt-0">
-                <div className="h-6 lg:h-8 bg-gray-200 rounded w-12 lg:w-16 animate-pulse"></div>
+                <div className="h-6 lg:h-8 bg-gray-200 dark:bg-gray-700 rounded w-12 lg:w-16 animate-pulse"></div>
               </CardContent>
             </Card>
           ))
@@ -193,7 +193,7 @@ export default function BlogPage() {
           <div className="flex flex-col gap-4">
             {/* Search input */}
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 h-4 w-4" />
               <Input
                 placeholder="Search posts..."
                 value={searchTerm}
@@ -207,7 +207,7 @@ export default function BlogPage() {
               <select 
                 value={statusFilter} 
                 onChange={(e) => setStatusFilter(e.target.value)}
-                className="px-3 py-2 border border-gray-300 rounded-md text-sm flex-1 max-w-xs"
+                className="px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200 rounded-md text-sm flex-1 max-w-xs"
               >
                 <option value="all">All Status</option>
                 <option value="published">Published</option>
@@ -215,7 +215,7 @@ export default function BlogPage() {
               </select>
               
               {/* Results count */}
-              <span className="text-sm text-gray-500">
+              <span className="text-sm text-gray-500 dark:text-gray-400">
                 {filteredPosts.length} post{filteredPosts.length !== 1 ? 's' : ''}
               </span>
             </div>
@@ -230,16 +230,16 @@ export default function BlogPage() {
             </div>
           ) : error ? (
             <div className="text-center py-8">
-              <p className="text-red-600 mb-4 text-sm lg:text-base">{error}</p>
+              <p className="text-red-600 dark:text-red-400 mb-4 text-sm lg:text-base">{error}</p>
               <Button onClick={fetchBlogData} size="sm">Try Again</Button>
             </div>
           ) : filteredPosts.length === 0 ? (
             <div className="text-center py-8">
-              <p className="text-gray-500 text-sm lg:text-base mb-4">
+              <p className="text-gray-500 dark:text-gray-400 text-sm lg:text-base mb-4">
                 {safeBlogPosts.length === 0 ? 'No blog posts found' : 'No posts match your search criteria'}
               </p>
               {safeBlogPosts.length === 0 && (
-                <Button className="bg-purple-600 hover:bg-purple-700" asChild size="sm">
+                <Button className="bg-purple-600 hover:bg-purple-700 dark:bg-purple-700 dark:hover:bg-purple-600" asChild size="sm">
                   <Link href="/admin/blog/new">
                     <Plus className="mr-2 h-4 w-4" />
                     Create Your First Post
@@ -250,11 +250,11 @@ export default function BlogPage() {
           ) : (
             <div className="space-y-3 lg:space-y-4">
               {filteredPosts.map((post) => (
-                <div key={post.id} className="flex flex-col lg:flex-row lg:items-start lg:justify-between p-4 lg:p-6 border rounded-lg hover:bg-gray-50 gap-4">
+                <div key={post.id} className="flex flex-col lg:flex-row lg:items-start lg:justify-between p-4 lg:p-6 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800/50 gap-4">
                   {/* Main content */}
                   <div className="flex items-start space-x-3 lg:space-x-4 flex-1 min-w-0">
                     {/* Image thumbnail */}
-                    <div className="w-12 h-12 lg:w-16 lg:h-16 rounded-lg overflow-hidden flex-shrink-0 bg-gray-100">
+                    <div className="w-12 h-12 lg:w-16 lg:h-16 rounded-lg overflow-hidden flex-shrink-0 bg-gray-100 dark:bg-gray-800">
                       {post.imageUrl ? (
                         <Image
                           src={post.imageUrl}
@@ -264,8 +264,8 @@ export default function BlogPage() {
                           className="w-full h-full object-cover"
                         />
                       ) : (
-                        <div className="w-full h-full bg-purple-100 flex items-center justify-center">
-                          <MessageSquare className="h-6 w-6 lg:h-8 lg:w-8 text-purple-600" />
+                        <div className="w-full h-full bg-purple-100 dark:bg-purple-900/20 flex items-center justify-center">
+                          <MessageSquare className="h-6 w-6 lg:h-8 lg:w-8 text-purple-600 dark:text-purple-400" />
                         </div>
                       )}
                     </div>
@@ -274,7 +274,7 @@ export default function BlogPage() {
                     <div className="flex-1 min-w-0">
                       {/* Title and status */}
                       <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 mb-2">
-                        <h3 className="font-semibold text-gray-900 text-base lg:text-lg truncate flex-1">
+                        <h3 className="font-semibold text-gray-900 dark:text-gray-100 text-base lg:text-lg truncate flex-1">
                           {post.title}
                         </h3>
                         <Badge className={`${getStatusColor(post.isPublished)} text-xs flex-shrink-0 w-fit`}>
@@ -283,12 +283,12 @@ export default function BlogPage() {
                       </div>
                       
                       {/* Excerpt - hidden on small screens */}
-                      <p className="text-gray-600 mb-2 line-clamp-2 text-sm lg:text-base hidden sm:block">
+                      <p className="text-gray-600 dark:text-gray-400 mb-2 line-clamp-2 text-sm lg:text-base hidden sm:block">
                         {post.excerpt || 'No excerpt available'}
                       </p>
                       
                       {/* Meta information */}
-                      <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-xs lg:text-sm text-gray-500">
+                      <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-xs lg:text-sm text-gray-500 dark:text-gray-400">
                         <div className="flex items-center">
                           <User className="h-3 w-3 lg:h-4 lg:w-4 mr-1 flex-shrink-0" />
                           <span className="truncate">{post.author?.name || 'Unknown Author'}</span>
@@ -318,7 +318,7 @@ export default function BlogPage() {
                       {/* Tags - hidden on mobile, shown on larger screens */}
                       {Array.isArray(post.tags) && post.tags.length > 0 && (
                         <div className="flex items-center mt-2 hidden lg:flex">
-                          <span className="text-sm text-gray-500 mr-2">Tags:</span>
+                          <span className="text-sm text-gray-500 dark:text-gray-400 mr-2">Tags:</span>
                           <div className="flex space-x-1 flex-wrap">
                             {post.tags.slice(0, 3).map((tag) => (
                               <Badge key={tag} variant="outline" className="text-xs">
@@ -352,7 +352,7 @@ export default function BlogPage() {
                       </Link>
                     </Button>
                     
-                    <Button variant="ghost" size="sm" className="text-red-600 hover:text-red-700 flex-1 lg:flex-none">
+                    <Button variant="ghost" size="sm" className="text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 flex-1 lg:flex-none">
                       <Trash2 className="h-4 w-4 mr-1 lg:mr-0" />
                       <span className="lg:hidden">Delete</span>
                     </Button>

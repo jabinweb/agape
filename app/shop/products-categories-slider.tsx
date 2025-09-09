@@ -9,6 +9,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { ChevronRight, ArrowRight } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useSystemSettings } from '@/hooks/useSystemSettings';
+import { formatCurrency } from '@/lib/utils';
 
 // Define types based on your database schema
 interface Product {
@@ -51,6 +53,7 @@ export default function ProductCategoriesSlider() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<'banners' | 'products' | 'categories'>('banners');
+  const { settings } = useSystemSettings();
 
   // Sample banner data - In a real application, this would come from an API/CMS
   const banners: Banner[] = [
@@ -267,7 +270,7 @@ export default function ProductCategoriesSlider() {
                               <div className="flex justify-between items-start mb-2">
                                 <h3 className="font-medium truncate dark:text-white">{product.name}</h3>
                                 <Badge variant="outline" className="dark:border-gray-600 dark:text-gray-300">
-                                  ${product.price.toFixed(2)}
+                                  {formatCurrency(product.price, settings?.currency || 'INR')}
                                 </Badge>
                               </div>
                               {product.category && (

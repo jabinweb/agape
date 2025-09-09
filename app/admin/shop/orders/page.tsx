@@ -31,6 +31,8 @@ import { Search, Download, MoreHorizontal, Eye, Package, Truck, CheckCircle, XCi
 import { toast } from 'sonner'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
+import { useSystemSettings } from '@/hooks/useSystemSettings'
+import { formatCurrency } from '@/lib/utils'
 
 interface Order {
   id: string
@@ -94,6 +96,7 @@ export default function AdminOrdersPage() {
   const [statusFilter, setStatusFilter] = useState('all')
   const [selectedOrders, setSelectedOrders] = useState<string[]>([])
   const [bulkActionLoading, setBulkActionLoading] = useState(false)
+  const { settings } = useSystemSettings()
 
   const fetchOrders = useCallback(async () => {
     try {
@@ -379,7 +382,7 @@ export default function AdminOrdersPage() {
                             </TableCell>
                             <TableCell>
                               <span className="font-bold text-lg bg-gradient-to-r from-green-600 to-emerald-600 dark:from-green-500 dark:to-emerald-400 bg-clip-text text-transparent">
-                                ₹{Number(order.totalAmount || 0).toFixed(2)}
+                                {formatCurrency(Number(order.totalAmount || 0), settings?.currency || 'INR')}
                               </span>
                             </TableCell>
                             <TableCell>

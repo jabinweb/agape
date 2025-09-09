@@ -10,6 +10,8 @@ import { toast } from 'sonner'
 import Link from 'next/link'
 import Image from 'next/image'
 import { DashboardHeader } from '@/components/dashboard/DashboardHeader'
+import { useSystemSettings } from '@/hooks/useSystemSettings'
+import { formatCurrency } from '@/lib/utils'
 
 interface Order {
   id: string
@@ -30,6 +32,7 @@ interface Order {
 export default function OrdersPage() {
   const [orders, setOrders] = useState<Order[]>([])
   const [loading, setLoading] = useState(true)
+  const settings = useSystemSettings()
 
   useEffect(() => {
     fetchOrders()
@@ -127,7 +130,9 @@ export default function OrdersPage() {
                         <span className="text-sm text-gray-500">
                           {order.orderItems.length} {order.orderItems.length === 1 ? 'item' : 'items'}
                         </span>
-                        <span className="text-lg font-bold">₹{Number(order.totalAmount).toFixed(2)}</span>
+                        <span className="text-lg font-bold">
+                          {formatCurrency(Number(order.totalAmount), settings?.currency || 'INR')}
+                        </span>
                       </div>
                       
                       <div className="flex space-x-3 overflow-x-auto">

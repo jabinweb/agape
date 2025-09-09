@@ -41,7 +41,7 @@ async function seedSystemSettings() {
       storePhone: '+1 (212) 555-7890',
       storeEmail: 'contact@atelier7x.com',
       storeWebsite: 'https://atelier7x.com',
-      currency: 'USD',
+      currency: 'INR',
       logoUrl: '/images/logo/atelier7x-logo.png',
       primaryColor: '#3b82f6', // blue
       secondaryColor: '#8b5cf6', // purple

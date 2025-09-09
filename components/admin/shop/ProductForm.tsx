@@ -18,6 +18,8 @@ import {
 import { ArrowLeft, Save, Upload, X } from 'lucide-react'
 import { toast } from 'sonner'
 import Link from 'next/link'
+import { useSystemSettings } from '@/hooks/useSystemSettings'
+import { getCurrencySymbol } from '@/lib/utils'
 import Image from 'next/image'
 import ImageUpload from '../media/ImageUpload'
 
@@ -49,9 +51,13 @@ interface ProductFormProps {
 
 export function ProductForm({ product }: ProductFormProps) {
   const router = useRouter()
+  const settings = useSystemSettings()
   const [loading, setLoading] = useState(false)
   const [categories, setCategories] = useState<ProductCategory[]>([])
   const [loadingCategories, setLoadingCategories] = useState(true)
+  
+  const currencySymbol = getCurrencySymbol(settings?.currency || 'INR')
+  
   const [formData, setFormData] = useState<Product>({
     name: '',
     description: null,
@@ -287,7 +293,7 @@ export function ProductForm({ product }: ProductFormProps) {
             </CardHeader>
             <CardContent className="space-y-4">
               <div>
-                <Label htmlFor="price">Price ($) *</Label>
+                <Label htmlFor="price">Price ({currencySymbol}) *</Label>
                 <Input
                   id="price"
                   type="number"

@@ -15,6 +15,8 @@ import {
 } from 'lucide-react'
 import Link from 'next/link'
 import { toast } from 'sonner'
+import { useSystemSettings } from '@/hooks/useSystemSettings'
+import { formatCurrency } from '@/lib/utils'
 
 interface DashboardStats {
   totalOrders: number
@@ -40,6 +42,7 @@ export default function DashboardPage() {
   const router = useRouter()
   const [stats, setStats] = useState<DashboardStats | null>(null)
   const [loading, setLoading] = useState(true)
+  const { settings } = useSystemSettings()
 
   const fetchDashboardStats = useCallback(async () => {
     try {
@@ -124,7 +127,7 @@ export default function DashboardPage() {
                     Total Spent
                   </p>
                   <p className="text-2xl font-semibold text-gray-900 dark:text-white">
-                    ₹{stats?.totalSpent?.toLocaleString() ?? 0}
+                    {formatCurrency(stats?.totalSpent ?? 0, settings?.currency || 'INR')}
                   </p>
                 </div>
                 <div className="w-10 h-10 bg-green-100 dark:bg-green-900/20 rounded-lg flex items-center justify-center">
@@ -182,7 +185,7 @@ export default function DashboardPage() {
                           Order #{order.id.slice(-8)}
                         </p>
                         <p className="text-sm text-gray-600 dark:text-gray-400">
-                          {order.orderItems.length} item(s) • ₹{order.total.toLocaleString()}
+                          {order.orderItems.length} item(s) • {formatCurrency(order.total, settings?.currency || 'INR')}
                         </p>
                       </div>
                       <div className="text-right">

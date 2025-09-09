@@ -2,10 +2,9 @@ import './globals.css';
 import type { Metadata } from 'next';
 import { Inter, Playfair_Display } from 'next/font/google';
 import { Toaster } from '@/components/ui/sonner';
-import Header from '@/components/header';
-import { Footer } from '@/components/footer';
 import Providers from '@/app/providers';
 import { getStoreSettings, StoreSettings } from '@/lib/settings';
+import { LayoutWrapper } from '@/components/layout-wrapper';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 const playfair = Playfair_Display({ subsets: ['latin'], variable: '--font-playfair' });
@@ -49,12 +48,10 @@ export default async function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} ${playfair.variable} font-sans antialiased`}>
-        <Providers initialSettings={settings}>
-          <Header />
-          <div className="min-h-screen flex flex-col">
+                <Providers initialSettings={settings}>
+          <LayoutWrapper>
             {children}
-          </div>
-          <Footer />
+          </LayoutWrapper>
           <Toaster />
         </Providers>
       </body>

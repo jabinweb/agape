@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { auth } from '@/auth'
 import { prisma } from '@/lib/prisma'
 import { createOrder, getRazorpayKeyId } from '@/lib/razorpay'
+import { getStoreSettings } from '@/lib/settings'
 
 export async function POST(request: NextRequest) {
   try {
@@ -54,9 +55,9 @@ export async function POST(request: NextRequest) {
       }, { status: 500 })
     }
 
-    // Get settings for currency
-    const settings = await prisma.systemSettings.findFirst()
-    const currency = settings?.currency || 'USD'
+    // Get store settings for currency
+    const settings = await getStoreSettings()
+    const currency = settings?.currency || 'INR'
 
     // For Razorpay, we need INR. Convert if necessary
     let razorpayAmount = amount
@@ -87,8 +88,8 @@ export async function POST(request: NextRequest) {
       targetCurrency: 'INR'
     })
 
-    // Create Razorpay order (always in INR)
-    const razorpayOrder = await createOrder(razorpayAmount, orderId)
+    // Create Razorpay order
+    const razorpayOrder = await createOrder(razorpayAmount, orderId, currency)
 
     console.log('Razorpay order created successfully:', {
       orderId: razorpayOrder.id,

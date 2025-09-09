@@ -122,7 +122,7 @@ export default function ProductDetailPage() {
   const formatPrice = (price: number) => {
     return price.toLocaleString(undefined, {
       style: 'currency',
-      currency: currency || 'USD',
+      currency: currency || 'INR',
       minimumFractionDigits: 0,
       maximumFractionDigits: 2
     })

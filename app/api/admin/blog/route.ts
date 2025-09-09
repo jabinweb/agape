@@ -13,7 +13,7 @@ export async function POST(req: Request) {
     }
     
     // Check if user has appropriate role to create posts
-    if (!['ADMIN', 'PASTOR', 'STAFF'].includes(session.user?.role as string)) {
+    if (!['ADMIN', 'STAFF'].includes(session.user?.role as string)) {
       return NextResponse.json({ error: "Insufficient permissions" }, { status: 403 })
     }
     
@@ -46,7 +46,7 @@ export async function POST(req: Request) {
       slug: body.slug,
       content: body.content,
       excerpt: body.excerpt || null,
-      authorId: session.user.id,
+      authorId: body.authorId || session.user.id, // Use provided authorId or fallback to current user
       isPublished: body.isPublished || false,
       publishDate: body.publishDate ? new Date(body.publishDate) : null,
       imageUrl: body.imageUrl || null,
@@ -84,7 +84,7 @@ export async function GET(req: NextRequest) {
     }
     
     // Check if user has appropriate role
-    if (!['ADMIN', 'PASTOR', 'STAFF'].includes(session.user?.role as string)) {
+    if (!['ADMIN', 'STAFF'].includes(session.user?.role as string)) {
       return NextResponse.json({ 
         error: "Insufficient permissions", 
         posts: [], 

@@ -11,6 +11,8 @@ import { Slider } from '@/components/ui/slider';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Filter, SlidersHorizontal } from 'lucide-react';
 import ProductCategoriesSlider from './products-categories-slider';
+import { useSystemSettings } from '@/hooks/useSystemSettings';
+import { getCurrencySymbol } from '@/lib/utils';
 
 // Define types based on database schema
 interface Product {
@@ -47,6 +49,7 @@ export default function ShopPage() {
   const [mediums, setMediums] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [maxPrice, setMaxPrice] = useState(2500);
+  const { settings } = useSystemSettings();
 
   // Fetch products from API
   useEffect(() => {
@@ -205,7 +208,7 @@ export default function ShopPage() {
                 {/* Price Range */}
                 <div className="space-y-3">
                   <label className="text-sm font-medium">
-                    Price Range: ${priceRange[0]} - ${priceRange[1]}
+                    Price Range: {getCurrencySymbol(settings?.currency || 'INR')}{priceRange[0]} - {getCurrencySymbol(settings?.currency || 'INR')}{priceRange[1]}
                   </label>
                   <Slider
                     value={priceRange}
@@ -215,8 +218,8 @@ export default function ShopPage() {
                     className="py-4"
                   />
                   <div className="flex justify-between text-xs text-muted-foreground">
-                    <span>$0</span>
-                    <span>${maxPrice}</span>
+                    <span>{getCurrencySymbol(settings?.currency || 'INR')}0</span>
+                    <span>{getCurrencySymbol(settings?.currency || 'INR')}{maxPrice}</span>
                   </div>
                 </div>
 

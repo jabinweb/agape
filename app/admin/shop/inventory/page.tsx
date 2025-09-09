@@ -45,6 +45,8 @@ import {
 import { format } from 'date-fns'
 import { toast } from 'sonner'
 import Image from 'next/image'
+import { useSystemSettings } from '@/hooks/useSystemSettings'
+import { formatCurrency } from '@/lib/utils'
 
 interface InventoryItem {
   id: string
@@ -95,6 +97,7 @@ export default function InventoryPage() {
   const [adjustDialogOpen, setAdjustDialogOpen] = useState(false)
   const [movementDialogOpen, setMovementDialogOpen] = useState(false)
   const [selectedProduct, setSelectedProduct] = useState<InventoryItem | null>(null)
+  const { settings } = useSystemSettings()
   const [adjustmentData, setAdjustmentData] = useState({
     type: 'IN' as 'IN' | 'OUT' | 'ADJUSTMENT',
     quantity: 0,
@@ -270,7 +273,7 @@ export default function InventoryPage() {
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-green-100 text-sm font-medium">Total Value</p>
-                    <p className="text-3xl font-bold">₹{stats.totalValue.toFixed(2)}</p>
+                    <p className="text-3xl font-bold">{formatCurrency(stats.totalValue, settings?.currency || 'INR')}</p>
                   </div>
                   <TrendingUp className="h-8 w-8 text-green-200" />
                 </div>
@@ -469,11 +472,11 @@ export default function InventoryPage() {
                               </Badge>
                             </TableCell>
                             <TableCell>
-                              <span className="font-semibold text-gray-900 dark:text-white">₹{item.price.toFixed(2)}</span>
+                              <span className="font-semibold text-gray-900 dark:text-white">{formatCurrency(item.price, settings?.currency || 'INR')}</span>
                             </TableCell>
                             <TableCell>
                               <span className="font-semibold text-green-700 dark:text-green-500">
-                                ₹{(item.stockQuantity * Number(item.price)).toFixed(2)}
+                                {formatCurrency(item.stockQuantity * Number(item.price), settings?.currency || 'INR')}
                               </span>
                             </TableCell>
                             <TableCell>
