@@ -124,11 +124,16 @@ export async function GET(request: NextRequest) {
       };
     });
 
-    return NextResponse.json({
+    const res = NextResponse.json({
       success: true,
       posts: formattedPosts,
       username
     });
+    res.headers.set("Access-Control-Allow-Origin", "*"); 
+    res.headers.set("Access-Control-Allow-Methods", "GET, OPTIONS");
+    res.headers.set("Access-Control-Allow-Headers", "Content-Type");
+    return res;
+
 
   } catch (error) {
     console.error('Error fetching Instagram posts:', error);
